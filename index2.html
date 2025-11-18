@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Birthday Sis 💖</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+<style>
+    /* --- GENERAL STYLING & MOBILE ALIGNMENT --- */
+    body {
+        margin: 0;
+        font-family: 'Poppins', sans-serif;
+        background: linear-gradient(135deg, #ffe4ec, #fff8f9);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        overflow: hidden;
+    }
+    .phone-frame {
+        width: 100%;
+        max-width: 420px;
+        height: 100%;
+        max-height: 850px;
+        background-color: #fff;
+        border-radius: 0;
+        box-shadow: none;
+        overflow: hidden;
+        position: relative;
+    }
+    @media (min-width: 600px) { 
+        .phone-frame {
+            border-radius: 25px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+        }
+    }
+    .page {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        top: 0; left: 0;
+        background: #fff;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        padding: 30px;
+        box-sizing: border-box;
+        /* Smoother Transition Timing */
+        transition: transform 0.6s cubic-bezier(0.5, 0, 0.5, 1), opacity 0.6s ease;
+        overflow-y: auto;
+    }
+    .hidden { transform: translateX(100%); opacity: 0; pointer-events: none; }
+    .active { transform: translateX(0); opacity: 1; }
+    .animate-out { transform: translateX(-100%); opacity: 0; }
+
+    /* --- FLOATING & GLOWING TEXT EFFECT (Smooth & Attractive) --- */
+    .floating-text {
+        animation: float 5s ease-in-out infinite, textGlow 1.5s ease-in-out infinite alternate;
+        padding: 5px; 
+    }
+    .title.floating-text {
+        animation-duration: 4s;
+    }
+    .subtitle.floating-text, .wish.floating-text {
+        animation-duration: 6s;
+    }
+    @keyframes float {
+        0% { transform: translateY(0px); }
+        50% { transform: translateY(-8px); } /* Reduced float for subtlety */
+        100% { transform: translateY(0px); }
+    }
+    @keyframes textGlow {
+        0% { text-shadow: 0 0 3px var(--glow-color-light, #fff), 0 0 6px rgba(0,0,0,0.1); }
+        100% { text-shadow: 0 0 8px var(--glow-color, #ff00ff), 0 0 15px var(--glow-color-fade, #ff00ff80); }
+    }
+    /* Set default glow color variables for each page's text */
+    #page1 .floating-text { --glow-color: #e91e63; --glow-color-light: #ffcdd2; --glow-color-fade: #e91e6380;}
+    #page2 .floating-text { --glow-color: #673ab7; --glow-color-light: #d1c4e9; --glow-color-fade: #673ab780;}
+    #page3 .floating-text { --glow-color: #00bcd4; --glow-color-light: #b2ebf2; --glow-color-fade: #00bcd480;}
+    #page4 .floating-text { --glow-color: #ff9800; --glow-color-light: #ffe0b2; --glow-color-fade: #ff980080;}
+    #page5 .floating-text { --glow-color: #e91e63; --glow-color-light: #ffcdd2; --glow-color-fade: #e91e6380;}
+
+
+    /* Typography and Buttons (Default - Pink Theme) */
+    .title {
+        font-size: 2.2em;
+        font-weight: 700;
+        color: #e91e63;
+        margin-bottom: 20px;
+    }
+    .next-btn {
+        margin-top: 30px;
+        padding: 12px 40px;
+        background-color: #e91e63;
+        color: white;
+        border: none;
+        border-radius: 30px;
+        font-size: 1.1em;
+        cursor: pointer;
+        box-shadow: 0 6px 15px rgba(233, 30, 99, 0.4);
+        transition: transform 0.2s ease, background-color 0.3s;
+        flex-shrink: 0;
+    }
+    .next-btn:active { transform: scale(0.96); }
+    .wish {
+        font-size: 1em;
+        color: #444;
+        line-height: 1.6;
+        margin-top: 10px;
+    }
+    /* Ensure wish text color matches theme for better glow effect */
+    #page1 .wish { color: #8e183c; } 
+    #page2 .wish { color: #50377a; } 
+    #page3 .wish { color: #007c8c; }
+    #page4 .wish { color: #aa6500; }
+    #page5 .wish { color: #8e183c; }
+
+    /* --- PAGE-SPECIFIC THEMES --- */
+    #page2.active .title { color: #673ab7; } 
+    #page2.active .next-btn { background-color: #673ab7; box-shadow: 0 6px 15px rgba(103, 58, 183, 0.4); }
+
+    #page3.active .title { color: #00bcd4; } 
+    #page3.active .next-btn { background-color: #00bcd4; box-shadow: 0 6px 15px rgba(0, 188, 212, 0.4); }
+
+    #page4.active .title { color: #ff9800; } 
+    #page4.active .next-btn { background-color: #ff9800; box-shadow: 0 6px 15px rgba(255, 152, 0, 0.4); }
+
+    #page5.active .title { color: #e91e63; } 
+    #page5.active .next-btn { background-color: #e91e63; box-shadow: 0 6px 15px rgba(233, 30, 99, 0.4); }
+
+    /* --- PAGE 3: WISH LANTERN --- */
+    .lantern-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 30px;
+        position: relative;
+    }
+    .lantern {
+        font-size: 8em;
+        color: #f7e6c4; /* Paper color */
+        cursor: pointer;
+        transition: color 0.5s ease, text-shadow 0.5s ease, transform 0.1s;
+        line-height: 1;
+        position: relative;
+        z-index: 2;
+    }
+    .lantern:active { transform: scale(0.95); }
+    .lantern-flame {
+        position: absolute;
+        top: -15px;
+        font-size: 3em;
+        color: #ff0000;
+        opacity: 0;
+        transition: opacity 0.5s ease;
+        z-index: 1;
+    }
+    .lit .lantern {
+        color: #ffcc99; /* Lighter color when lit */
+        text-shadow: 0 0 15px rgba(255, 165, 0, 0.8), 0 0 30px rgba(255, 140, 0, 0.5);
+    }
+    .lit .lantern-flame {
+        opacity: 1;
+        animation: pulseFlame 1s infinite alternate;
+        color: #ff9900;
+        text-shadow: 0 0 5px #ff6600;
+    }
+    @keyframes pulseFlame {
+        0% { transform: scale(1); }
+        100% { transform: scale(1.1); }
+    }
+    .promise-text {
+        font-weight: 700;
+        margin-top: 15px;
+        color: #00bcd4;
+        min-height: 25px; /* Prevent text jump */
+    }
+
+    /* --- PAGE 4: SONG LIST --- */
+    .song-list {
+        list-style: none;
+        padding: 0;
+        width: 85%;
+        margin-top: 20px;
+        flex-grow: 1;
+        overflow-y: auto;
+    }
+    .song-item {
+        background-color: #fffaf0;
+        border: 1px solid #ffcc80;
+        padding: 10px 15px;
+        margin-bottom: 10px;
+        border-radius: 8px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        text-align: left;
+        box-shadow: 0 2px 5px rgba(255, 152, 0, 0.1);
+        transition: transform 0.2s;
+        cursor: pointer;
+    }
+    .song-item:active { transform: scale(0.98); }
+    .song-details {
+        font-size: 0.9em;
+        line-height: 1.4;
+    }
+    .song-details span {
+        display: block;
+        color: #ff9800;
+        font-weight: 700;
+    }
+    .song-details small {
+        color: #888;
+        font-size: 0.8em;
+    }
+    .play-icon {
+        color: #ff9800;
+        font-size: 1.5em;
+        transition: color 0.3s;
+    }
+    .playing-song .play-icon {
+        color: #e91e63; /* Change color when playing */
+        animation: pulse 1s infinite;
+    }
+    @keyframes pulse {
+        0% { transform: scale(1); }
+        50% { transform: scale(1.1); }
+        100% { transform: scale(1); }
+    }
+    
+    /* Existing styles (Music Button, Confetti) */
+    .music-btn {
+        position: absolute; top: 20px; right: 20px; background: rgba(233, 30, 99, 0.8);
+        color: white; border: none; width: 40px; height: 40px; border-radius: 50%;
+        display: flex; align-items: center; justify-content: center; font-size: 1.2em;
+        cursor: pointer; z-index: 100; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        transition: background 0.3s, transform 0.1s;
+    }
+    .music-btn:active { transform: scale(0.95); }
+    .music-btn.playing { background: rgba(76, 175, 80, 0.8); }
+    .confetti { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; overflow: hidden; }
+
+    /* Typing Animation for Page 1 */
+    .typing-text {
+        overflow: hidden; 
+        white-space: nowrap; 
+        width: 0;
+        border-right: .15em solid #e91e63; 
+        margin: 0 auto; 
+        letter-spacing: .05em; 
+        /* The animation property is added/re-added by JS for effect */
+    }
+    @keyframes typing {
+        from { width: 0 }
+        to { width: 100% }
+    }
+    @keyframes blink-caret {
+        from, to { border-color: transparent }
+        50% { border-color: #e91e63; }
+    }
+</style>
+</head>
+<body>
+
+<div class="phone-frame">
+    
+    <button class="music-btn" id="musicBtn" onclick="toggleMusic()">
+        🎵
+    </button>
+
+    <div class="page active" id="page1">
+        <h2 class="subtitle floating-text fade-in">To my not-by-blood but by-heart Sister 💖</h2>
+        <h1 class="title floating-text fade-in">Happy Birthday 🎂</h1>
+        <p class="wish floating-text"><span id="typedWish1" class="typing-text">You’ve filled my life with joy, laughter, and a bond that no distance or DNA could define. You’re truly one of a kind.</span></p>
+        <div class="heart floating-text fade-in">💞</div>
+        <button class="next-btn" onclick="showPage('page1', 'page2')">NEXT</button>
+    </div>
+
+    <div class="page hidden" id="page2">
+        <h1 class="title floating-text fade-in">Our Inside Jokes & Laughter 😂</h1>
+        <p class="wish floating-text fade-in">Forget the formal photos! The best memories are the ones that make us cry-laughing.</p>
+        
+        <p class="wish floating-text fade-in" style="margin-top: 25px; font-size: 1.2em;">**Remember that time we...** <br> (You know the one! 😉)</p>
+        
+        <p class="wish floating-text fade-in" style="margin-top: 50px;">Every little moment of madness is a treasure. Here's to more shared secrets and uncontrollable giggles!</p>
+        <button class="next-btn" onclick="showPage('page2', 'page3')">NEXT</button>
+    </div>
+
+    <div class="page hidden" id="page3">
+        <h1 class="title floating-text fade-in">Light the Wish Lantern 🏮</h1>
+        <p class="wish floating-text fade-in">Tap the lantern to send your biggest birthday wish soaring into the sky!</p>
+        
+        <div class="lantern-container" id="lanternContainer" onclick="lightLantern(this)">
+            <span class="lantern-flame">🔥</span>
+            <span class="lantern">🪔</span> 
+        </div>
+
+        <p class="wish promise-text floating-text fade-in" id="lanternMessage">Tap to Light Up!</p>
+        <button class="next-btn" onclick="showPage('page3', 'page4')">NEXT</button>
+    </div>
+
+    <div class="page hidden" id="page4">
+        <h1 class="title floating-text fade-in">Your Birthday Mixtape 🎧</h1>
+        <p class="wish floating-text fade-in">Songs that remind me of our journey, inside jokes, or just things I know you love!</p>
+
+        <ul class="song-list fade-in">
+            <li class="song-item" data-src="Dabe Dabe Pav Se Aaye Haule Haule Zindagi - Barfi.mp3">
+                <div class="song-details">
+                    <span>Dabe Dabe Pav Se Aaye Haule Haule Zindagi (Barfi)</span>
+                    <small>The calm, loving theme of our friendship.</small>
+                </div>
+                <div class="play-icon">▶️</div>
+            </li>
+             <li class="song-item" data-src="Tera Yaar Hoon Main.mp3">
+                <div class="song-details">
+                    <span>Tera Yaar Hoon Main</span>
+                    <small>Arijit Singh - For our unbreakable bond.</small>
+                </div>
+                <div class="play-icon">▶️</div>
+            </li>
+            <li class="song-item" data-src="">
+                <div class="song-details">
+                    <span>[Your Favorite Nostalgia Track]</span>
+                    <small>For those old-school car ride memories!</small>
+                </div>
+                <div class="play-icon">▶️</div>
+            </li>
+            <li class="song-item" data-src="">
+                <div class="song-details">
+                    <span>[Your Sister's Favorite Song]</span>
+                    <small>The one she always plays! (Click any song to stop audio)</small>
+                </div>
+                <div class="play-icon">▶️</div>
+            </li>
+        </ul>
+        <audio id="songPlayer" preload="auto"></audio>
+
+        <button class="next-btn" onclick="showPage('page4', 'page5')">FINAL WISH</button>
+    </div>
+
+    <div class="page hidden" id="page5">
+        <h1 class="title floating-text fade-in">Your Day of Joy 🎉</h1>
+        <p class="wish floating-text fade-in">Keep smiling, keep shining, and never forget that you’re deeply loved. Happy Birthday!</p>
+        <div class="confetti" id="confetti"></div>
+        <button class="next-btn" onclick="showPage('page5', 'page1', true)">RESTART</button>
+    </div>
+</div>
+
+<audio id="bgMusic" loop>
+    <source src="Dabe Dabe Pav Se Aaye Haule Haule Zindagi - Barfi.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+    const bgMusic = document.getElementById("bgMusic");
+    const musicBtn = document.getElementById("musicBtn");
+    const typedWish1 = document.getElementById("typedWish1");
+    const songPlayer = document.getElementById("songPlayer");
+    const songItems = document.querySelectorAll('.song-item');
+    const lanternContainer = document.getElementById('lanternContainer');
+    const lanternMessage = document.getElementById('lanternMessage');
+    let bgMusicPlayedOnce = false; 
+
+    // --- MUSIC CONTROL (For bgMusic) ---
+    function updateMusicButton(isPlaying) {
+        if (isPlaying) {
+            musicBtn.classList.add('playing');
+            musicBtn.innerHTML = '⏸️';
+        } else {
+            musicBtn.classList.remove('playing');
+            musicBtn.innerHTML = '🎵';
+        }
+    }
+
+    function toggleMusic() {
+        // Stop the dedicated song player first
+        if (!songPlayer.paused) { 
+            songPlayer.pause(); 
+            songPlayer.removeAttribute('src'); 
+            removePlayingClass();
+        }
+
+        if (bgMusic.paused) {
+            bgMusic.play().catch(e => console.error("BG Autoplay failed:", e));
+            updateMusicButton(true);
+        } else {
+            bgMusic.pause();
+            updateMusicButton(false);
+        }
+    }
+
+    // --- Initial Interaction Handler (To enable autoplay on touch devices) ---
+    document.body.addEventListener('click', () => {
+        if (!bgMusicPlayedOnce) {
+            if (bgMusic.paused) {
+                toggleMusic();
+            }
+            bgMusicPlayedOnce = true;
+        }
+    }, { once: true });
+
+
+    // --- PAGE TRANSITION ---
+    function showPage(currentPageId, nextPageId, restart = false) {
+        const currentPage = document.getElementById(currentPageId);
+        const nextPage = document.getElementById(nextPageId);
+        
+        // Add smooth exit animation
+        currentPage.classList.add('animate-out');
+        
+        if (currentPageId === 'page5') stopConfetti();
+
+        // Handle audio when leaving the Mixtape page (Page 4)
+        if (currentPageId === 'page4' || restart) {
+            songPlayer.pause();
+            songPlayer.removeAttribute('src');
+            removePlayingClass();
+            // Resume background music if it was previously playing/marked as playing
+            if (musicBtn.classList.contains('playing')) {
+                 bgMusic.play().catch(e => console.error("BG Resume failed:", e));
+            }
+        }
+        
+        // Reset lantern state when leaving page 3
+        if (currentPageId === 'page3') {
+            lanternContainer.classList.remove('lit');
+            lanternMessage.textContent = 'Tap to Light Up!';
+        }
+
+        // Delay class toggling for the transition effect
+        setTimeout(() => {
+            currentPage.classList.remove('active', 'animate-out');
+            currentPage.classList.add('hidden');
+            
+            nextPage.classList.remove('hidden');
+            nextPage.classList.add('active');
+
+            if (nextPageId === 'page5') startConfetti();
+            
+            // Re-trigger typing on page 1 if restarting
+            if (nextPageId === 'page1' && restart) {
+                typedWish1.style.width = '0';
+                void typedWish1.offsetWidth; 
+                typedWish1.style.animation = 'none';
+                setTimeout(() => {
+                    typedWish1.style.animation = 'typing 3.5s steps(70, end) forwards, blink-caret .75s step-end infinite';
+                }, 50); 
+            }
+        }, 550); // Shorter delay for the 0.6s transition
+    }
+
+    // --- PAGE 3: LANTERN LOGIC ---
+    function lightLantern(element) {
+        if (!element.classList.contains('lit')) {
+            element.classList.add('lit');
+            lanternMessage.textContent = "Wish Granted! May your year be bright! ✨";
+        }
+    }
+
+
+    // --- PAGE 4: SONG PLAYER LOGIC ---
+    function removePlayingClass() {
+        songItems.forEach(item => item.classList.remove('playing-song'));
+    }
+
+    songItems.forEach(item => {
+        item.addEventListener('click', () => {
+            const src = item.getAttribute('data-src');
+            
+            // Pause background music immediately
+            bgMusic.pause();
+            updateMusicButton(false);
+            
+            // Check if the current song is already playing
+            if (songPlayer.getAttribute('src') === src && !songPlayer.paused) {
+                // Same song is playing -> PAUSE
+                songPlayer.pause();
+                songPlayer.removeAttribute('src'); // Clear source
+                removePlayingClass();
+            } else if (src) {
+                // New song or paused song -> PLAY
+                songPlayer.src = src;
+                songPlayer.play().catch(e => console.error("Song Playback failed:", e));
+                
+                // Update playing indicator
+                removePlayingClass();
+                item.classList.add('playing-song');
+            } else {
+                // If src is empty (placeholder) or generic stop button -> STOP/Clear
+                songPlayer.pause();
+                songPlayer.removeAttribute('src');
+                removePlayingClass();
+            }
+        });
+    });
+
+    // Reset playing state when song ends naturally
+    songPlayer.addEventListener('ended', () => {
+        removePlayingClass();
+        songPlayer.removeAttribute('src');
+    });
+
+    // --- CONFETTI EFFECTS (Simplified) ---
+    const confettiContainer = document.getElementById("confetti");
+    function startConfetti() {
+        if (confettiContainer.children.length > 0) return;
+        for (let i = 0; i < 50; i++) {
+            const span = document.createElement("span");
+            span.style.width = Math.random() * 8 + 3 + "px";
+            span.style.height = Math.random() * 8 + 3 + "px";
+            span.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 70%)`;
+            span.style.position = 'absolute';
+            span.style.borderRadius = '50%';
+            span.style.left = Math.random() * 100 + "%";
+            span.style.top = -10 + "%";
+            span.style.opacity = Math.random();
+            span.style.transform = `rotate(${Math.random() * 360}deg)`;
+            span.style.animation = `fall ${Math.random() * 3 + 2}s linear infinite`; 
+            confettiContainer.appendChild(span);
+        }
+    }
+
+    // Define the generic fall animation in CSS for the dynamically created confetti spans
+    const styleSheet = document.createElement("style");
+    styleSheet.innerHTML = `
+        @keyframes fall {
+            0% { transform: translate(0, -100px) rotate(0deg); opacity: 1; }
+            100% { transform: translate(calc(${Math.random() * 200 - 100}px), 100vh) rotate(720deg); opacity: 0; }
+        }
+    `;
+    document.head.appendChild(styleSheet);
+
+    function stopConfetti() {
+        confettiContainer.innerHTML = "";
+    }
+
+    // Initialize the typing effect on the first page load
+    window.onload = function() {
+        setTimeout(() => {
+            typedWish1.style.animation = 'typing 3.5s steps(70, end) forwards, blink-caret .75s step-end infinite';
+        }, 100);
+    }
+</script>
+</body>
+</html>
